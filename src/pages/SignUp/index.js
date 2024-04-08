@@ -13,23 +13,28 @@ import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const schema = yup.object({
   nome: yup.string().required("Informe seu Nome"),
-  cpf: yup.string().min(11,"minimo de 11 digitos").max(11, "Máximo de 11 dígitos").required("Informe seu cpf"),
+  cpf: yup
+    .string()
+    .min(11, "minimo de 11 digitos")
+    .max(11, "Máximo de 11 dígitos")
+    .required("Informe seu cpf"),
   email: yup.string().email("Email inválido!").required("Informe seu email"),
-  password: yup.string().min(6, "A senha deve ter pelo menos 6 dígitos").max(8, "A senha deve ter no maximo 8 dígitos").required("Informe sua senha"),
-  cpassword:  yup
-  .string()
-  .oneOf([yup.ref("password"), null], "As senhas devem corresponder")
-  .required("Confirme sua senha"),
+  password: yup
+    .string()
+    .min(6, "A senha deve ter pelo menos 6 dígitos")
+    .max(8, "A senha deve ter no maximo 8 dígitos")
+    .required("Informe sua senha"),
+  cpassword: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "As senhas devem corresponder")
+    .required("Confirme sua senha"),
 });
-
-
 
 export default function SignUp() {
   const navigation = useNavigation();
@@ -46,10 +51,9 @@ export default function SignUp() {
     console.log(data);
   }
 
-
   return (
     <LinearGradient
-      colors={["#5AACFF", "#0007FF"]}
+      colors={["#00c6b1","#00a5a8","#008398","#00637f","#004461"]}
       style={styles.gradient}
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
@@ -61,27 +65,32 @@ export default function SignUp() {
           keyboardShouldPersistTaps="always"
         >
           {
-              <><Animatable.View
-              animation="fadeInLeft"
-              delay={500}
-              style={styles.containerHeader}
-            >
-              <Text style={styles.message}>Cadastre-se</Text>
-            </Animatable.View><Animatable.View
-              animation="fadeInUp"
-              style={styles.containerForm}
-            >
+            <>
+              <Animatable.View
+                animation="fadeInLeft"
+                delay={500}
+                style={styles.containerHeader}
+              >
+                <Text style={styles.message}>Cadastre-se</Text>
+              </Animatable.View>
+              <Animatable.View
+                animation="fadeInUp"
+                style={styles.containerForm}
+              >
                 <Text style={styles.title}>Nome</Text>
                 <Controller
                   control={control}
                   name="nome"
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                      style={[styles.input, {
-                        borderWidth: errors.nome && 1,
-                        borderColor: errors.nome && '#fa0707',
-                        backgroundColor: errors.nome && '#ffcfcf'
-                      }]}
+                      style={[
+                        styles.input,
+                        {
+                          borderWidth: errors.nome && 1,
+                          borderColor: errors.nome && "#fa0707",
+                          backgroundColor: errors.nome && "#ffcfcf",
+                        },
+                      ]}
                       onChangeText={onChange}
                       onBlur={onBlur}
                       value={value}
@@ -89,29 +98,35 @@ export default function SignUp() {
                     />
                   )}
                 />
-              {errors.nome && <Text style={styles.labelError}>{errors.nome?.message}</Text>}
-
-              <Text style={styles.title}>Cpf</Text>
-              <Controller
-                control={control}
-                name="cpf"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={[styles.input, {
-                      borderWidth: errors.cpf && 1,
-                      borderColor: errors.cpf && '#fa0707',
-                      backgroundColor: errors.cpf && '#ffcfcf'
-                    }]}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    placeholder="Digite seu cpf"
-                    keyboardType="numeric"
-                  />
+                {errors.nome && (
+                  <Text style={styles.labelError}>{errors.nome?.message}</Text>
                 )}
-              />
-            {errors.cpf && <Text style={styles.labelError}>{errors.cpf?.message}</Text>}
 
+                <Text style={styles.title}>Cpf</Text>
+                <Controller
+                  control={control}
+                  name="cpf"
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      style={[
+                        styles.input,
+                        {
+                          borderWidth: errors.cpf && 1,
+                          borderColor: errors.cpf && "#fa0707",
+                          backgroundColor: errors.cpf && "#ffcfcf",
+                        },
+                      ]}
+                      onChangeText={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                      placeholder="Digite seu cpf"
+                      keyboardType="numeric"
+                    />
+                  )}
+                />
+                {errors.cpf && (
+                  <Text style={styles.labelError}>{errors.cpf?.message}</Text>
+                )}
 
                 <Text style={styles.title}>Email</Text>
                 <Controller
@@ -119,11 +134,14 @@ export default function SignUp() {
                   name="email"
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                      style={[styles.input, {
-                        borderWidth: errors.email && 1,
-                        borderColor: errors.email && '#fa0707',
-                        backgroundColor: errors.email && '#ffcfcf'
-                      }]}
+                      style={[
+                        styles.input,
+                        {
+                          borderWidth: errors.email && 1,
+                          borderColor: errors.email && "#fa0707",
+                          backgroundColor: errors.email && "#ffcfcf",
+                        },
+                      ]}
                       onChangeText={onChange}
                       onBlur={onBlur}
                       value={value}
@@ -131,30 +149,38 @@ export default function SignUp() {
                     />
                   )}
                 />
-              {errors.email && <Text style={styles.labelError}>{errors.email?.message}</Text>}
-
-              <Text style={styles.title}>Senha</Text>
-              <Controller
-                control={control}
-                name="password"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={[styles.input, {
-                      borderWidth: errors.password && 1,
-                      borderColor: errors.password && '#fa0707',
-                      backgroundColor: errors.password && '#ffcfcf'
-                    }]}
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    placeholder="Digite sua senha"
-                    secureTextEntry={true}
-                    keyboardType="numeric"
-                  />
+                {errors.email && (
+                  <Text style={styles.labelError}>{errors.email?.message}</Text>
                 )}
-              />
-            {errors.password && <Text style={styles.labelError}>{errors.password?.message}</Text>}
 
+                <Text style={styles.title}>Senha</Text>
+                <Controller
+                  control={control}
+                  name="password"
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <TextInput
+                      style={[
+                        styles.input,
+                        {
+                          borderWidth: errors.password && 1,
+                          borderColor: errors.password && "#fa0707",
+                          backgroundColor: errors.password && "#ffcfcf",
+                        },
+                      ]}
+                      onChangeText={onChange}
+                      onBlur={onBlur}
+                      value={value}
+                      placeholder="Digite sua senha"
+                      secureTextEntry={true}
+                      keyboardType="numeric"
+                    />
+                  )}
+                />
+                {errors.password && (
+                  <Text style={styles.labelError}>
+                    {errors.password?.message}
+                  </Text>
+                )}
 
                 <Text style={styles.title}>Confirme a Senha</Text>
                 <Controller
@@ -162,11 +188,14 @@ export default function SignUp() {
                   name="cpassword"
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
-                      style={[styles.input, {
-                        borderWidth: errors.cpassword && 1,
-                        borderColor: errors.cpassword && '#fa0707',
-                        backgroundColor: errors.cpassword && '#ffcfcf'
-                      }]}
+                      style={[
+                        styles.input,
+                        {
+                          borderWidth: errors.cpassword && 1,
+                          borderColor: errors.cpassword && "#fa0707",
+                          backgroundColor: errors.cpassword && "#ffcfcf",
+                        },
+                      ]}
                       onChangeText={onChange}
                       onBlur={onBlur}
                       value={value}
@@ -176,17 +205,31 @@ export default function SignUp() {
                     />
                   )}
                 />
-              {errors.cpassword && <Text style={styles.labelError}>{errors.cpassword?.message}</Text>}
+                {errors.cpassword && (
+                  <Text style={styles.labelError}>
+                    {errors.cpassword?.message}
+                  </Text>
+                )}
 
-
-                <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignUp)}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={handleSubmit(handleSignUp)}
+                >
                   <Text style={styles.buttonText}>Cadastrar</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.title}></Text>
-
-              </Animatable.View></>
-           
+                <TouchableOpacity
+                  style={styles.buttonRegister}
+                  onPress={() => navigation.navigate("SignIn")}
+                >
+                  <Text style={styles.buttonRegister}>
+                    Voltar
+                  </Text>
+                  
+                </TouchableOpacity>
+              </Animatable.View>
+            </>
           }
         </KeyboardAwareScrollView>
       }
@@ -211,7 +254,6 @@ const styles = StyleSheet.create({
     marginTop: "14%",
     marginBottom: "8%",
     paddingStart: "5%",
-
   },
   message: {
     fontSize: 28,
@@ -229,17 +271,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginTop: 28,
-    marginVertical: '1',
+    marginVertical: "1",
   },
   input: {
     borderBottomWidth: 1,
     height: 40,
     marginBottom: 12,
     fontSize: 16,
-    paddingStart: '2%'
+    paddingStart: "2%",
   },
   button: {
-    backgroundColor: "#0007FF",
+    backgroundColor: "#004461",
     width: "100%",
     borderRadius: 4,
     paddingVertical: 8,
@@ -253,15 +295,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   buttonRegister: {
-    marginTop: 14,
+    marginTop: -25,
     alignSelf: "center",
+    fontSize: 15
   },
   RegisterText: {
-    color: "#a1a1a1",
+    color: "#2E2E2E",
   },
   labelError: {
-    alignSelf: 'flex-start',
-    color: '#ff375b',
+    alignSelf: "flex-start",
+    color: "#ff375b",
     marginBottom: 8,
-  }
+  },
 });

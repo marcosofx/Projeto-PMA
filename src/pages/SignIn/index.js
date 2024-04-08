@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { StatusBar } from "react-native";
 
 import {
   View,
@@ -20,12 +21,16 @@ const schema = yup.object({
   email: yup.string().email("Email invalido!").required("Informe seu email"),
   password: yup
     .string()
-    .min(6, "A senha deve ter pelo menos 6 digitos").max(8, "A senha deve ter no maximo 8 dígitos")
+    .min(6, "A senha deve ter pelo menos 6 digitos")
+    .max(8, "A senha deve ter no maximo 8 dígitos")
     .required("informe sua senha"),
 });
 
 export default function SignIn() {
   const navigation = useNavigation();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userType, setUserType] = useState(null);
+
 
   const {
     control,
@@ -36,88 +41,136 @@ export default function SignIn() {
   });
 
   function handleSignIn(data) {
-    console.log(data);
+    // Credenciais pré-definidas
+    const predefinedCredentials = {
+      admin: { email: "admin@admin.com", password: "123456" },
+      user: { email: "user@user.com", password: "123456" },
+    };
+    
+    if (
+      data.email === predefinedCredentials.admin.email &&
+      data.password === predefinedCredentials.admin.password
+    ) {
+      setLoggedIn(true); // Define o estado de autenticação como verdadeiro
+      setUserType("admin"); // Define o tipo de usuário como admin
+    } else if (
+      data.email === predefinedCredentials.user.email &&
+      data.password === predefinedCredentials.user.password
+    ) {
+      setLoggedIn(true); // Define o estado de autenticação como verdadeiro
+      setUserType("user"); // Define o tipo de usuário como user
+    } else {
+      // Se as credenciais estiverem incorretas, exibe uma mensagem de erro
+      console.log("Credenciais inválidas. Por favor, tente novamente.");
+    }
   }
 
+  // Se loggedIn for verdadeiro, redirecione para a página correspondente ao tipo de usuário
+  if (loggedIn) {
+    if (userType === "admin") {
+      navigation.navigate("HomeRecruiter");
+    } else if (userType === "user") {
+      navigation.navigate("HomeUser");
+    }
+    return null; // Retorna null para que o restante do componente não seja renderizado
+  }
+
+  //function handleSignIn(data) {
+  //  console.log(data);
+  //}
+
   return (
-    <LinearGradient
-      colors={["#5AACFF", "#0007FF"]}
-      style={styles.gradient}
-      start={{ x: 0, y: 0 }}
-      end={{ x: 0, y: 1 }}
-    >
-      {
-        <View style={styles.container}>
-          <Animatable.View
-            animation="fadeInLeft"
-            delay={500}
-            style={styles.containerHeader}
-          >
-            <Text style={styles.message}>Bem-vindo(a)</Text>
-          </Animatable.View>
-
-          <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-            <Text style={styles.title}>Email</Text>
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={[styles.input, {
-                    borderWidth: errors.email && 1,
-                    borderColor: errors.email && '#fa0707',
-                    backgroundColor: errors.email && '#ffcfcf'
-                  }]}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  placeholder="Digite um email"
-                />
-              )}
-            />
-          {errors.email && <Text style={styles.labelError}>{errors.email?.message}</Text>}
-
-            <Text style={styles.title}>Senha</Text>
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  style={[styles.input, {
-                    borderWidth: errors.password && 1,
-                    borderColor: errors.password && '#fa0707',
-                    backgroundColor: errors.password && '#ffcfcf'
-                  }]}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  value={value}
-                  placeholder="Digite sua senha"
-                  secureTextEntry={true}
-                  keyboardType="numeric"
-                />
-              )}
-            />
-          {errors.password && <Text style={styles.labelError}>{errors.password?.message}</Text>}
-
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleSubmit(handleSignIn)}
+  
+        <LinearGradient
+        colors={["#00c6b1","#00a5a8","#008398","#00637f","#004461"]}
+        style={styles.gradient}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 0, y: 1 }}
+      >
+        {
+          <View style={styles.container}>
+            <Animatable.View
+              animation="fadeInLeft"
+              delay={500}
+              style={styles.containerHeader}
             >
-              <Text style={styles.buttonText}>Acessar</Text>
-            </TouchableOpacity>
+              <Text style={styles.message}>Bem-vindo(a)</Text>
+            </Animatable.View>
+  
+            <Animatable.View animation="fadeInUp" style={styles.containerForm}>
+              <Text style={styles.title}>Email</Text>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[
+                      styles.input,
+                      {
+                        borderWidth: errors.email && 1,
+                        borderColor: errors.email && "#fa0707",
+                        backgroundColor: errors.email && "#ffcfcf",
+                      },
+                    ]}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    placeholder="Digite um email"
+                  />
+                )}
+              />
+              {errors.email && (
+                <Text style={styles.labelError}>{errors.email?.message}</Text>
+              )}
+  
+              <Text style={styles.title}>Senha</Text>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <TextInput
+                    style={[
+                      styles.input,
+                      {
+                        borderWidth: errors.password && 1,
+                        borderColor: errors.password && "#fa0707",
+                        backgroundColor: errors.password && "#ffcfcf",
+                      },
+                    ]}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    placeholder="Digite sua senha"
+                    secureTextEntry={true}
+                    keyboardType="numeric"
+                  />
+                )}
+              />
+              {errors.password && (
+                <Text style={styles.labelError}>{errors.password?.message}</Text>
+              )}
+  
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleSubmit(handleSignIn)}
+              >
+                <Text style={styles.buttonText}>Acessar</Text>
+              </TouchableOpacity>
+  
+              <TouchableOpacity
+                style={styles.buttonRegister}
+                onPress={() => navigation.navigate("SignUp")}
+              >
+                <Text style={styles.RegisterText}>
+                  Não possui uma conta? Cadastre-se
+                </Text>
+              </TouchableOpacity>
+            </Animatable.View>
+          </View>
+        }
+      </LinearGradient>
 
-            <TouchableOpacity
-              style={styles.buttonRegister}
-              onPress={() => navigation.navigate("SignUp")}
-            >
-              <Text style={styles.RegisterText}>
-                Não possui uma conta? Cadastre-se
-              </Text>
-            </TouchableOpacity>
-          </Animatable.View>
-        </View>
-      }
-    </LinearGradient>
+
   );
 }
 
@@ -155,17 +208,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     marginTop: 28,
-    marginVertical: '1%',
+    marginVertical: "1%",
   },
   input: {
     borderBottomWidth: 1,
     height: 40,
     marginBottom: 12,
     fontSize: 16,
-    paddingStart: '2%'
+    paddingStart: "2%",
   },
   button: {
-    backgroundColor: "#0007FF",
+    backgroundColor: "#004461",
     width: "100%",
     borderRadius: 4,
     paddingVertical: 8,
@@ -183,11 +236,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   RegisterText: {
-    color: "#a1a1a1",
+    color: "#2E2E2E",
   },
   labelError: {
-    alignSelf: 'flex-start',
-    color: '#ff375b',
+    alignSelf: "flex-start",
+    color: "#ff375b",
     marginBottom: 8,
-  }
+  },
 });

@@ -10,7 +10,7 @@ export default function Welcome() {
   const navigation = useNavigation();
   return (
     <LinearGradient
-      colors={["#0007FF", "#0007FF", "#0007FF"]}
+      colors={["#004461", "#004461", "#004461"]}
       style={styles.container}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
@@ -19,7 +19,7 @@ export default function Welcome() {
         <View style={styles.container}>
           <View style={styles.containerLogo}>
             <LinearGradient
-              colors={["#5AACFF", "#0007FF"]}
+              colors={["#00c6b1","#00a5a8","#008398","#00637f","#004461"]}
               style={styles.gradient}
               start={{ x: 0, y: 0 }}
               end={{ x: 0, y: 1 }}
@@ -27,10 +27,12 @@ export default function Welcome() {
               {
                 <Animatable.Image
                   animation="flipInY"
-                  source={require("../../assets/logo.png")}
-                  style={{ width: "100%" }}
+                  source={require("../../assets/logo1.png")}
+                  style={{width: "100%", height:"50%"}}
                   resizeMode="contain"
                   marginTop="25%"
+
+
                 />
               }
             </LinearGradient>
@@ -52,6 +54,7 @@ export default function Welcome() {
             >
               <Text style={styles.buttonText}>Acessar</Text>
             </TouchableOpacity>
+            
           </Animatable.View>
         </View>
       }
@@ -77,6 +80,7 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: "center",
     alignItems: "center",
+ 
   },
 
   containerForm: {
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
   },
   button: {
     position: "absolute",
-    backgroundColor: "#0007FF",
+    backgroundColor: "#004461",
     borderRadius: 50,
     paddingVertical: 8,
     width: "60%",
