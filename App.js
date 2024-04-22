@@ -14,8 +14,6 @@ const printUsers = (users) => {
 export default function App() {
 
 
- 
-
   return (
     <NavigationContainer>
       <StatusBar backgroundColor="#00c6b1" barStyle="light-content"/>
