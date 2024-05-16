@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import users from "../../data/users"
 
 import {
   View,
@@ -50,6 +51,7 @@ export default function SignUp() {
   function handleSignUp(data) {
 
 
+
   console.log("Nome: " + data.nome + ", Cpf: " + data.cpf + ", Email: " + data.email + ", Senha: " + data.password);
 
   if (data.nome != null && data.cpf != null && data.email != null && data.password != null) {
@@ -65,6 +67,7 @@ export default function SignUp() {
   } else {
     console.log("ALGUM CAMPO PASSADO COMO NULO");
   }
+
 
 
   }
