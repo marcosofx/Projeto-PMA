@@ -17,7 +17,7 @@ const create = (obj) => {
       //comando SQL modificável
       tx.executeSql(
         "INSERT INTO users (nome, cpf , email, senha) values (?, ?, ?, ?);",
-        [obj.nome, obj.cpf, obj.email, obj.senha],
+        [obj.nome, obj.cpf, obj.email, obj.password],
         //-----------------------
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) resolve(insertId);

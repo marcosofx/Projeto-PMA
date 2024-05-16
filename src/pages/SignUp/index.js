@@ -48,7 +48,25 @@ export default function SignUp() {
   });
 
   function handleSignUp(data) {
-    console.log(data);
+
+
+  console.log("Nome: " + data.nome + ", Cpf: " + data.cpf + ", Email: " + data.email + ", Senha: " + data.password);
+
+  if (data.nome != null && data.cpf != null && data.email != null && data.password != null) {
+  console.log("Nome: " + data.nome + ", Cpf: " + data.cpf + ", Email: " + data.email + ", Senha: " + data.password);
+
+  users.create(data)
+    .then((insertId) => {
+      console.log("Usuário criado com o ID:", insertId);
+    })
+    .catch((error) => {
+      console.error("Error ao criar usuário:", error);
+    });
+  } else {
+    console.log("ALGUM CAMPO PASSADO COMO NULO");
+  }
+
+
   }
 
   return (
