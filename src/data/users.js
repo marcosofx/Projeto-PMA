@@ -14,9 +14,10 @@ db.transaction ((tx) => {
 const create = (obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
+      //comando SQL modificável
       tx.executeSql(
         "INSERT INTO users (nome, cpf , email, senha) values (?, ?, ?, ?);",
-        [obj.nome, obj.cpf, obj.email, obj.senha],
+        [obj.nome, obj.cpf, obj.email, obj.password],
         //-----------------------
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) resolve(insertId);
@@ -32,6 +33,7 @@ const create = (obj) => {
 const update = (id, obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
+      //comando SQL modificável
       tx.executeSql(
         "UPDATE users SET nome=?, cpf=?, email=?, senha=? WHERE id=?;",
         [obj.nome, obj.cpf, obj.email,obj.senha, id],
@@ -50,6 +52,7 @@ const update = (id, obj) => {
 const all = () => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
+      //comando SQL modificável
       tx.executeSql(
         "SELECT * FROM users;",
         [],
@@ -64,6 +67,7 @@ const all = () => {
 const remove = (id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
+      //comando SQL modificável
       tx.executeSql(
         "DELETE FROM users WHERE id=?;",
         [id],
