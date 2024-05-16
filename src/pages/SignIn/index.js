@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StatusBar } from "react-native";
 
+
 import {
   View,
   Text,
@@ -43,6 +44,7 @@ export default function SignIn() {
   function handleSignIn(data) {
     // Credenciais pré-definidas
     const predefinedCredentials = {
+
       admin: { email: "admin@admin.com", password: "123456" },
       user: { email: "user@user.com", password: "123456" },
     };
