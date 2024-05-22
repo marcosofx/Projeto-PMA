@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import users from "../../data/usersRepositories/users"
+import admin from "../../data/adminRepositories/admin"
+import { useForm, Controller } from 'react-hook-form';
 import { StatusBar } from "react-native";
 
 
@@ -13,8 +16,6 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
-
-import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -31,55 +32,47 @@ export default function SignIn() {
   const navigation = useNavigation();
   const [loggedIn, setLoggedIn] = useState(false);
   const [userType, setUserType] = useState(null);
-
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
 
-  function handleSignIn(data) {
-    // Credenciais pré-definidas
-    const predefinedCredentials = {
-
-      admin: { email: "admin@admin.com", password: "123456" },
-      user: { email: "user@user.com", password: "123456" },
-    };
-    
-    if (
-      data.email === predefinedCredentials.admin.email &&
-      data.password === predefinedCredentials.admin.password
-    ) {
-      setLoggedIn(true); // Define o estado de autenticação como verdadeiro
-      setUserType("admin"); // Define o tipo de usuário como admin
-    } else if (
-      data.email === predefinedCredentials.user.email &&
-      data.password === predefinedCredentials.user.password
-    ) {
-      setLoggedIn(true); // Define o estado de autenticação como verdadeiro
-      setUserType("user"); // Define o tipo de usuário como user
-    } else {
-      // Se as credenciais estiverem incorretas, exibe uma mensagem de erro
-      console.log("Credenciais inválidas. Por favor, tente novamente.");
+  useEffect (() => {
+    if(loggedIn && userType) {
+      if(userType === 'admin'){
+        navigation.navigate('HomeRecruiter');
+      } else {
+        navigation.navigate('HomeUser');
+      }
     }
-  }
+  }, [loggedIn, userType, navigation]);
+  
 
-  // Se loggedIn for verdadeiro, redirecione para a página correspondente ao tipo de usuário
-  if (loggedIn) {
-    if (userType === "admin") {
-      navigation.navigate("HomeRecruiter");
-    } else if (userType === "user") {
-      navigation.navigate("HomeUser");
+
+  const handleSignIn = async (data) => {
+
+    try{
+
+    const user = await users.verificarCredenciaisUsers(data.email, data.password)
+      setLoggedIn(true);
+      setUserType(user.userType);
+      console.log("Login de usuario bem-sucedido!");
+
+    } catch(useError) {
+
+      try {
+        const adminUser = await admin.verificarCredenciaisAdmin(data.email, data.password);
+        setLoggedIn(true);
+        setUserType(adminUser.userType);
+        console.log("Login de administrador bem-sucedido!");
+
+      } catch (adminError) {
+
+        console.log("Erro de autenticação:", adminError);
+        alert("Email ou senha incorreto");
+      }
     }
-    return null; // Retorna null para que o restante do componente não seja renderizado
-  }
+  };
 
-  //function handleSignIn(data) {
-  //  console.log(data);
-  //}
 
   return (
   
@@ -95,6 +88,7 @@ export default function SignIn() {
               animation="fadeInLeft"
               delay={500}
               style={styles.containerHeader}
+              
             >
               <Text style={styles.message}>Bem-vindo(a)</Text>
             </Animatable.View>

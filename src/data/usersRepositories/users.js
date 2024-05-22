@@ -1,14 +1,4 @@
-import db from "./databaseConnect"; 
-
-db.transaction ((tx) => { 
-
-
-
-  tx.executeSql(
-    "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, cpf TEXT, email TEXT, senha TEXT);"
-  );
-});
-
+import db from "../databaseConnect"; 
 
 
 const create = (obj) => {
@@ -81,6 +71,26 @@ const remove = (id) => {
   });
 };
 
+const verificarCredenciaisUsers = (email, password) => {
+  return new Promise((resolve, reject) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM users WHERE email = ? AND senha = ?;",
+        [email, password],
+        (_, { rows }) => {
+          if (rows.length > 0) {
+            resolve({ ...rows.item(0), userType: 'user' }); // Adiciona userType
+          } else {
+            reject("Usuário não encontrado"); // usuário não encontrado
+          }
+        },
+        (_, error) => reject(error) // erro interno em tx.executeSql
+      );
+    });
+  });
+};
+
+
 
 
 export default{
@@ -88,4 +98,5 @@ export default{
   all,
   update,
   remove,
+  verificarCredenciaisUsers,
 };

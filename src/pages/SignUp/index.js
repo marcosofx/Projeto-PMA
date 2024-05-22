@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import users from "../../data/users"
+import users from "../../data/usersRepositories/users"
 
 import {
   View,
@@ -51,21 +51,20 @@ export default function SignUp() {
   function handleSignUp(data) {
 
 
-
-  console.log("Nome: " + data.nome + ", Cpf: " + data.cpf + ", Email: " + data.email + ", Senha: " + data.password);
-
   if (data.nome != null && data.cpf != null && data.email != null && data.password != null) {
   console.log("Nome: " + data.nome + ", Cpf: " + data.cpf + ", Email: " + data.email + ", Senha: " + data.password);
 
   users.create(data)
     .then((insertId) => {
       console.log("Usuário criado com o ID:", insertId);
+      alert("Usuario criado com sucesso");
+      navigation.navigate("SignIn");
     })
     .catch((error) => {
       console.error("Error ao criar usuário:", error);
     });
   } else {
-    console.log("ALGUM CAMPO PASSADO COMO NULO");
+    console.log("ALGUM CAMPO DE REGISTRO PASSADO COMO NULO NA CRIAÇÃO DE USUÁRIO");
   }
 
 
