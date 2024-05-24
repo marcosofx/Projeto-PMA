@@ -1,19 +1,18 @@
-import db from "../databaseConnect"; 
+import db from "../database/databaseConnect";
 
 
 const create = (obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      //comando SQL modificável
       tx.executeSql(
         "INSERT INTO users (nome, cpf , email, senha) values (?, ?, ?, ?);",
         [obj.nome, obj.cpf, obj.email, obj.password],
-        //-----------------------
+        
         (_, { rowsAffected, insertId }) => {
           if (rowsAffected > 0) resolve(insertId);
-          else reject("Error inserting obj: " + JSON.stringify(obj)); // insert falhou
+          else reject("Error inserting obj: " + JSON.stringify(obj));
         },
-        (_, error) => reject(error) // erro interno em tx.executeSql
+        (_, error) => reject(error)
       );
     });
   });
@@ -23,16 +22,16 @@ const create = (obj) => {
 const update = (id, obj) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      //comando SQL modificável
+      
       tx.executeSql(
         "UPDATE users SET nome=?, cpf=?, email=?, senha=? WHERE id=?;",
         [obj.nome, obj.cpf, obj.email,obj.senha, id],
-        //-----------------------
+        
         (_, { rowsAffected }) => {
           if (rowsAffected > 0) resolve(rowsAffected);
-          else reject("Error updating obj: id=" + id); // nenhum registro alterado
+          else reject("Error updating obj: id=" + id); 
         },
-        (_, error) => reject(error) // erro interno em tx.executeSql
+        (_, error) => reject(error) 
       );
     });
   });
@@ -42,13 +41,11 @@ const update = (id, obj) => {
 const all = () => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      //comando SQL modificável
       tx.executeSql(
         "SELECT * FROM users;",
         [],
-        //-----------------------
         (_, { rows }) => resolve(rows._array),
-        (_, error) => reject(error) // erro interno em tx.executeSql
+        (_, error) => reject(error) 
       );
     });
   });
@@ -57,15 +54,14 @@ const all = () => {
 const remove = (id) => {
   return new Promise((resolve, reject) => {
     db.transaction((tx) => {
-      //comando SQL modificável
       tx.executeSql(
         "DELETE FROM users WHERE id=?;",
         [id],
-        //-----------------------
+        
         (_, { rowsAffected }) => {
           resolve(rowsAffected);
         },
-        (_, error) => reject(error) // erro interno em tx.executeSql
+        (_, error) => reject(error) 
       );
     });
   });
@@ -79,12 +75,12 @@ const verificarCredenciaisUsers = (email, password) => {
         [email, password],
         (_, { rows }) => {
           if (rows.length > 0) {
-            resolve({ ...rows.item(0), userType: 'user' }); // Adiciona userType
+            resolve({ ...rows.item(0), userType: 'user' }); 
           } else {
-            reject("Usuário não encontrado"); // usuário não encontrado
+            reject("Usuário não encontrado"); 
           }
         },
-        (_, error) => reject(error) // erro interno em tx.executeSql
+        (_, error) => reject(error) 
       );
     });
   });

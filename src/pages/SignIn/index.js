@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import users from "../../data/usersRepositories/users"
-import admin from "../../data/adminRepositories/admin"
+import admin from "../../services/admin";
 import { useForm, Controller } from 'react-hook-form';
+import loginServices from "../../services/loginServices";
+import users from "../../services/users";
 import { StatusBar } from "react-native";
 
 
@@ -36,26 +37,18 @@ export default function SignIn() {
     resolver: yupResolver(schema),
   });
 
-  useEffect (() => {
-    if(loggedIn && userType) {
-      if(userType === 'admin'){
-        navigation.navigate('HomeRecruiter');
-      } else {
-        navigation.navigate('HomeUser');
-      }
-    }
-  }, [loggedIn, userType, navigation]);
-  
-
 
   const handleSignIn = async (data) => {
 
     try{
 
-    const user = await users.verificarCredenciaisUsers(data.email, data.password)
+    const user = await loginServices.login(data.email, data.password);
       setLoggedIn(true);
       setUserType(user.userType);
       console.log("Login de usuario bem-sucedido!");
+
+      logUsuario = await loginServices.getUsuarioLogado();
+      console.log(logUsuario);
 
     } catch(useError) {
 
@@ -68,10 +61,21 @@ export default function SignIn() {
       } catch (adminError) {
 
         console.log("Erro de autenticação:", adminError);
-        alert("Email ou senha incorreto");
+        alert.alert("Email ou senha incorreto");
       }
     }
   };
+
+
+  useEffect (() => {
+    if(loggedIn && userType) {
+      if(userType === 'admin'){
+        navigation.navigate('HomeRecruiter');
+      } else {
+        navigation.navigate('HomeUser');
+      }
+    }
+  }, [loggedIn, userType, navigation]);
 
 
   return (

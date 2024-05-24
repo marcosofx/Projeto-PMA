@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import users from "../../data/usersRepositories/users"
+import users from '../../services/users';
 
 import {
   View,

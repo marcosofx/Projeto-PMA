@@ -1,4 +1,4 @@
-import db from "../databaseConnect"; 
+import db from "../database/databaseConnect"; 
 
 
 const create = (email, password) => {
