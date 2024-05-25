@@ -44,13 +44,13 @@ export default function HomeUser() {
 
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate("")}
+              onPress={() => navigation.navigate("CreateVagasAdmin")}
             >
               <Text style={styles.buttonText}>Criar Vagas</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate("")}
+              onPress={() => navigation.navigate("VagasAdmin")}
             >
               <Text style={styles.buttonText}>Vagas Criadas</Text>
             </TouchableOpacity>

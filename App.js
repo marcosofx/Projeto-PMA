@@ -12,6 +12,8 @@ import inscricaoDeVagas from './src/services/inscricaoDeVagas'
 
 
 
+
+
 /*
 
 const printUsers = (users) => {
@@ -27,6 +29,10 @@ users.all()
     */
 
 
+
+
+
+
    /*
 
     const printVagas = (vagas) => {
@@ -38,8 +44,7 @@ users.all()
             vagas => vagas.forEach( v => printVagas(v))
           )
 
-    */
-  
+  */
         
 
   

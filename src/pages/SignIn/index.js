@@ -61,7 +61,7 @@ export default function SignIn() {
       } catch (adminError) {
 
         console.log("Erro de autenticação:", adminError);
-        alert.alert("Email ou senha incorreto");
+        alert("Email ou senha incorreto");
       }
     }
   };
