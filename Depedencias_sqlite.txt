@@ -1,0 +1,45 @@
+
+
+
+Depedências:
+	expo : 4.9.0
+	node: 21.7.1
+	npm: 10.5.2
+	expo-sqlite : npx expo install expo-sqlite
+	Async-Storage: expo install @react-native-async-storage/async-storage
+
+
+
+Modos de usar os metodos de sqlite com objeto:
+
+	create:
+
+		* Simulação de dados como se fosse dados do objeto *
+
+		users.create( {nome:'thiago', cpf:'492.374.847-39', email:'thi@gmail.com', senha:'12345'} )
+    	.then( id => console.log('user created with id: '+ id) )
+    	.catch( err => console.log(err) )
+
+    all:
+
+    	users.all()
+      	.then( 
+      	users => users.forEach( c => printCar(c) )
+    )
+
+    update:
+
+    	* Simulação de dados como se fosse dados do objeto *
+
+    	users.update( 1, {nome:'lucas', cpf:'726.398.398-94', email:'lucas@gmail.com', senha:'1010'} )
+    	.then( updated => console.log('Users updated: '+ updated) )
+    	.catch( err => console.log(err) )
+
+
+    remove:
+
+    	* id no paramentro é o id do objeto passado *
+
+    	users.remove(id)
+    	.then( updated => console.log('Users removed: '+ updated) )
+    	.catch( err => console.log(err) )

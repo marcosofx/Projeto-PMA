@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StatusBar } from "react-native";
 
+
 import {
   View,
   Text,
@@ -44,7 +45,7 @@ export default function HomeUser() {
 
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate("")}
+              onPress={() => navigation.navigate("VagasAllUser")}
             >
               <Text style={styles.buttonText}>Vagas</Text>
             </TouchableOpacity>
